@@ -38,13 +38,13 @@ const Button = styled.button`
   }
 `;
 
-export default function NotRegistered() {
+export default function NotFound() {
   return (
     <Wrapper>
-      <p>Hey there! Seems like you are not signed in. Try signing in by clicking the link below.</p>
+      <p>Hey there! Seems like you tried to access a page that does not exist.</p>
 
       <Link to="/login">
-        <Button>GO TO SIGN IN PAGE</Button>
+        <Button>GO BACK HOME</Button>
       </Link>
     </Wrapper>
   );

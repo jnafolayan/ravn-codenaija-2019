@@ -1,26 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Router } from "@reach/router";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
-import NotRegistered from "./screens/NotRegistered";
+import NotFound from "./screens/NotFound";
 
-import AuthContextProvider from "./contexts/AuthContext";
+import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
+
+const Protected = ({ render }) => {
+  const { state } = useContext(AuthContext);
+  return state.user ? render() : <Login />;
+};
 
 export default function App() {
   return (
-    <AuthContextProvider 
-      render={({ user }) => {
-        return user ? (
-          <Router>
-        	  <Home path="/" />
-          </Router>
-        ) : (
-          <Router>
-            <Login path="/login" onLogin={null} />
-            <NotRegistered default />
-          </Router>
-        )
-      }}
-    />
+    <AuthContextProvider>
+      <Router>
+        <Protected path="/" render={() => <Home />} />
+        <Login path="/login" />
+        <NotFound default />
+      </Router>
+    </AuthContextProvider>
   );
 }
