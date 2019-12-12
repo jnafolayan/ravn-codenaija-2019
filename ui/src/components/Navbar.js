@@ -1,21 +1,21 @@
 import React, { useContext } from "react";
+import { Link } from "@reach/router";
 import styled from "styled-components";
-
 import { ThemeContext } from "../contexts/ThemeContext";
-import Logo from "../assets/img/logo.png";
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 22px 18px;
-  text-align: center;
   background: ${({ theme }) => theme.bg};
-  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  img {
-    display: block;
-    width: 30px;
-    height: auto;
-    margin: 0 auto;
+  > a {
+    text-decoration: none;
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    color: #fff;
   }
 `;
 
@@ -24,7 +24,18 @@ export default function Navbar() {
 
   return (
     <Wrapper theme={state}>
-      <img src={Logo} alt="Logo" />
+      <Link to="/nearby">
+        <i className="fa fa-2x fa-exclamation-circle"></i>
+      </Link>
+      <Link to="/">
+        <i className="fa fa-2x fa-home"></i>
+      </Link>
+      <Link to="/profile">
+        <i className="fa fa-2x fa-user"></i>
+      </Link>
+      <Link to="/mobile">
+        <i className="fa fa-2x fa-shield-alt"></i>
+      </Link>
     </Wrapper>
   );
 }

@@ -26,6 +26,7 @@ const InnerWrapper = styled.div`
 
 const Form = styled.form`
   width: 100%;
+  max-width: 767px;
   padding: 18px 0;
   margin: 20px auto;
   margin-top: -20px;

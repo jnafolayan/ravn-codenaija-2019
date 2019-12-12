@@ -4,7 +4,7 @@ export const ThemeContext = React.createContext();
 
 const themes = {
   dark: {
-    bg: 'rgb(13 , 13, 13)',
+    bg: 'rgb(40, 38, 45)',
     text: 'rgb(238, 238, 238)'
   },
   light: {

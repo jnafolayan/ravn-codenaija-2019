@@ -2,21 +2,22 @@ import React, { useReducer } from "react";
 
 export const AuthContext = React.createContext();
 
+const extract = key => localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : null;
+
 const initialState = {
-  user: null,
-  token: null
+  user: extract("user"),
+  token: extract("token")
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
       const { user, token } = action.payload;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", user);
+      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("user", JSON.stringify(user));
       return { ...state, user, token };
     case "LOGOUT":
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.clear();
       return {
         ...state,
         user: null,

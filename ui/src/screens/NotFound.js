@@ -43,7 +43,7 @@ export default function NotFound() {
     <Wrapper>
       <p>Hey there! Seems like you tried to access a page that does not exist.</p>
 
-      <Link to="/login">
+      <Link to="/">
         <Button>GO BACK HOME</Button>
       </Link>
     </Wrapper>
