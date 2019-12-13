@@ -24,14 +24,11 @@ export default function Navbar() {
 
   return (
     <Wrapper theme={state}>
-      <Link to="/nearby">
-        <i className="fa fa-2x fa-exclamation-circle"></i>
+      <Link to="/profile">
+        <i className="fa fa-2x fa-user"></i>
       </Link>
       <Link to="/">
         <i className="fa fa-2x fa-home"></i>
-      </Link>
-      <Link to="/profile">
-        <i className="fa fa-2x fa-user"></i>
       </Link>
       <Link to="/mobile">
         <i className="fa fa-2x fa-shield-alt"></i>

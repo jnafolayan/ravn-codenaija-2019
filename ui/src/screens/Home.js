@@ -13,13 +13,6 @@ const Wrapper = styled.div`
 
 const MapViewWrapper = styled.div`
   position: relative;
-  
-  > .overlay {
-    background: rgba(80,80,80,0.45);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
 `;
 
 export default function Home() {
@@ -27,9 +20,8 @@ export default function Home() {
     <Wrapper>
       <Header />
       <MapViewWrapper>
-        <MapView style={{}} />
-        {/*<div className="overlay"></div>*/}
-        <Drawer title="Nearby" body={null} />
+        <MapView />
+        <Drawer />
       </MapViewWrapper>
       <Navbar />
     </Wrapper>
