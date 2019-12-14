@@ -28,13 +28,15 @@ const Button = styled.button`
   border-bottom: 3px solid #ddd;
   background: none;
   transition: all 0.3s;
+  color: #eee;
 
   &:hover {
+    background: #fff;
+    color: #222;
     border: none;
     background: rgba(30,30,30, 0.7);
     box-shadow: 0 4px 18px rgba(0,0,0,0.3);
     border-radius: 8px;
-    color: #eee;
     cursor: pointer;
   }
 `;

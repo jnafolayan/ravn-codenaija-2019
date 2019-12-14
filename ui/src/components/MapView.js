@@ -104,6 +104,5 @@ export function MapView({ google, onLoad }) {
 }
 
 export default GoogleApiWrapper({
-  // apiKey: "AIzaSyC3IWu37nfnJ23ADg1MiXdlO6ui18hGy3I",
-  apiKey: "AIzaSyDEMIU5oJBAJopuHiFud9Nju6txhDYihBg"
+  apiKey: "AIzaSyC3IWu37nfnJ23ADg1MiXdlO6ui18hGy3I"
 })(MapView);

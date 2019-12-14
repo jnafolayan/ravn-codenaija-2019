@@ -1,5 +1,7 @@
 import axios from "axios";
 
-export default function request(method, url, payload) {
-  return axios[method](`http://local`)
+export const SERVER_URL = "http://74.207.232.171:3000/api/v1";
+
+export default function wrapApi(url) {
+  return `${SERVER_URL}${url}`;
 }
