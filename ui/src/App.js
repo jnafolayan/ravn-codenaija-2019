@@ -1,17 +1,18 @@
 import React, { useContext } from "react";
-import { Router, navigate } from "@reach/router";
+import { Location, Router, navigate } from "@reach/router";
 import posed, { PoseGroup } from "react-pose";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import MobileMode from "./screens/MobileMode";
+import WriteReport from "./screens/WriteReport";
 import NotFound from "./screens/NotFound";
 
 import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
 
 const RouteContainer = posed.div({
-  enter: { opacity: 1, delay: 300, beforeChildren: 300 },
-  exit: { opacity: 0 }
+  enter: { delay: 300, opacity: 1, beforeChildren: false, staggerChildren: 50  },
+  exit: { opacity: 0, staggerChildren: 20 }
 });
 
 const PosedRouter = ({ children }) => (
@@ -42,6 +43,7 @@ export default function App() {
       <PosedRouter>
         <Protected path="/" render={() => <Home />} />
         <Protected path="/mobile" render={() => <MobileMode />} />
+        <Protected path="/write" render={() => <WriteReport />} />
         <Login path="/login" />
         <Signup path="/signup" />
         <NotFound default />

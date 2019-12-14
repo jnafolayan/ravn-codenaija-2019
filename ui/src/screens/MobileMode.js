@@ -27,7 +27,7 @@ export default function Home() {
   const [buttonPushed, setButtonPushed] = useState(false);
 
   const askForCancelCode = () => {
-    setButtonPushed(true);
+    setTimeout(() => setButtonPushed(true), 800);
   };
 
   const cancelDistress = () => {

@@ -32,7 +32,7 @@ const Wrapper = styled.div`
       }
 
       &.down {
-        background: radial-gradient(circle at center, hsl(5, 100%, 25%) 55%, hsl(3, 82%, 38%));
+        background: radial-gradient(circle at center, hsl(140, 100%, 25%) 55%, hsl(142, 82%, 38%));
       }
     }
   }

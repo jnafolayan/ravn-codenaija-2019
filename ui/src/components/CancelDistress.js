@@ -12,14 +12,14 @@ export default function CancelDistress({ onCancel }) {
   const [inputBox, setInputBox] = useState(0);
 
   const pushNumber = ({ target }) => {
+    if (inputBox >= input.length) return;
+
     input[inputBox] = +target.dataset.value;
     setInput(input);
+    setInputBox(inputBox + 1);
 
-    if (inputBox + 1 == 4) {
-      if (input.join("") == generatedCode)
-        onCancel();
-    } else {
-      setInputBox(inputBox + 1);
+    if (inputBox == 3 && input.join("") == generatedCode) {
+      setTimeout(onCancel(), 600);
     }
   };
 
@@ -100,8 +100,8 @@ const Wrapper = styled.div`
     display: grid;
     width: 100%;
     margin: 38px auto 0 auto;
-    grid-template-columns: 60px 60px 60px;
-    grid-template-rows: 60px 60px 60px 60px;
+    grid-template-columns: 85px 85px 85px;
+    grid-template-rows: 85px 85px 85px 85px;
     grid-gap: 12px;
     justify-content: center;
 
@@ -116,6 +116,7 @@ const Wrapper = styled.div`
       &:hover,
       &:focus {
         background: hsl(50, 100%, 48%);
+        outline: none;
         color: #111;
       }
     }

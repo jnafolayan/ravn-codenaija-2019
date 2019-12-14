@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { navigate } from "@reach/router";
 import styled from "styled-components";
 import { ThemeContext } from "../contexts/ThemeContext";
 import Header from "../components/Header";
@@ -46,6 +47,7 @@ const Write = styled.div`
   text-align: center;
   z-index: 10;
   box-shadow: 0 4px 16px rgba(20,20,20,0.6);
+  cursor: pointer;
 
   i {
     line-height: 50px;
@@ -64,7 +66,7 @@ export default function Home() {
         {
           mapLoaded ? 
           <React.Fragment>
-            <Write>
+            <Write onClick={() => navigate("/write")}>
               <i className="fa fa-bullhorn"></i>
             </Write>
             <NewsContextProvider>
