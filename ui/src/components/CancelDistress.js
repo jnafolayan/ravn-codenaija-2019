@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-export default function CancelDistress({ onCancel }) {
+export default function CancelDistress({ onCancel, onProceed }) {
   const a = Math.floor(Math.random() * 10);
   const b = Math.floor(Math.random() * 10);
   const c = Math.floor(Math.random() * 10);
@@ -10,6 +10,7 @@ export default function CancelDistress({ onCancel }) {
   const [generatedCode, setGeneratedCode] = useState(code);
   const [input, setInput] = useState([null, null, null, null]);
   const [inputBox, setInputBox] = useState(0);
+  const [shouldTimer, setShouldTimer] = useState(true);
 
   const pushNumber = ({ target }) => {
     if (inputBox >= input.length) return;
@@ -19,7 +20,7 @@ export default function CancelDistress({ onCancel }) {
     setInputBox(inputBox + 1);
 
     if (inputBox == 3 && input.join("") == generatedCode) {
-      setTimeout(onCancel(), 600);
+      setTimeout(onCancel, 600);
     }
   };
 
@@ -27,6 +28,17 @@ export default function CancelDistress({ onCancel }) {
     setInput([null, null, null, null]);
     setInputBox(0);
   };
+
+  useEffect(() => {
+    if (!shouldTimer) return;
+    setShouldTimer(true);
+
+    const timeout = setTimeout(onProceed, 10000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [shouldTimer]);
 
   return (
     <Wrapper>
@@ -78,15 +90,14 @@ const Wrapper = styled.div`
 
   .boxes {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 50px 50px 50px 50px;
+    grid-template-rows: 50px;
     grid-gap: 12px;
     margin: 0 auto;
-    width: 80%;
+    justify-content: center;
 
     > div {
       background: rgba(70,70,70,0.8);
-      width: 50px;
-      height: 50px;
       line-height: 50px;
       text-align: center;
       color: #fff;

@@ -34,13 +34,17 @@ export default function Home() {
     setButtonPushed(false);
   };
 
+  const sendSignal = () => {
+    console.log("Sending signal");
+  };
+
   return (
     <Wrapper theme={theme}>
       <Header />
       {
         !buttonPushed ?
         <PushButton onRelease={askForCancelCode} /> :
-        <CancelDistress onCancel={cancelDistress} />
+        <CancelDistress onCancel={cancelDistress} onProceed={sendSignal} />
       }
       <div className="cancel">
         <i className="fa fa-2x fa-times" onClick={() => navigate("/")}></i>
