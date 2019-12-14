@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "parcel build --public-url ./ src/index.html -d public/app/",
     "dev": "parcel src/index.html"
   },
   "keywords": [],

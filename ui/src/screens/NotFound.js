@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   font-family: "Open Sans", sans-serif;
   text-align: center;  
   padding: 120px 18px;
+  color: #fff;
 
   p {
     max-width: 460px;
