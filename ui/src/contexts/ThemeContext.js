@@ -13,7 +13,7 @@ const themes = {
   }
 };
 
-const themeReducer = ({ state, action }) => {
+const themeReducer = (state, action) => {
   switch (action.type) {
     case "TOGGLE":
       const newTheme = state == theme.dark ? theme.light : theme.dark;

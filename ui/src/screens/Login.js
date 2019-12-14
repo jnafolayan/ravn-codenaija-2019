@@ -47,7 +47,7 @@ const FormGroup = styled.div`
     margin-top: 4rem;
     text-align: center;
     color: #ccc;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: "Open Sans", sans-serif;
 
     a {
