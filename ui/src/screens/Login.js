@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Link, navigate } from "@reach/router";
+import axios from "axios";
 import styled from "styled-components";
 
 import { AuthContext } from "../contexts/AuthContext";
+import wrapApi from "../request";
 import CityBG from "../assets/img/city-bg.jpg";
 
 const Wrapper = styled.div`
@@ -98,7 +100,7 @@ export default function Login() {
   const { dispatch } = useContext(AuthContext);
 
   const [state, setState] = useState({
-    username: "",
+    email: "",
     password: ""
   });
 
@@ -112,17 +114,20 @@ export default function Login() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: { 
-          ...state
-        },
-        token: null
-      }
-    });
-
-    navigate("/");
+    axios.post(wrapApi("/users/login"), state)
+      .then(resp => {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: { 
+              ...state
+            },
+            token: null
+          }
+        });
+        navigate("/");
+      })
+      .catch(() => alert("Could not log you in. Sorry!"));
   };
 
   return (
@@ -138,7 +143,7 @@ export default function Login() {
           </Heading>
 
           <FormGroup>
-            <input type="text" name="username" placeholder="Username" onChange={onInputChange} /> 
+            <input type="email" name="email" placeholder="Email" onChange={onInputChange} /> 
           </FormGroup>
 
           <FormGroup>

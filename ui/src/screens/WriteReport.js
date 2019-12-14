@@ -1,16 +1,22 @@
 import React, { useState, useContext } from "react";
+import { navigate } from "@reach/router";
 import styled from "styled-components";
+import axios from "axios";
+import wrapApi from "../request";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
 export default function Home() {
   const { state: theme } = useContext(ThemeContext);
+  const { state: auth } = useContext(AuthContext);
 
   const [state, setState] = useState({
     title: "",
     description: "",
-    location: null
+    category: "Security",
+    location: { type: "Point", coordinates: localStorage.coords.split(",").map(Number) }
   });
 
   const onInputChange = ({ target }) => {
@@ -22,6 +28,22 @@ export default function Home() {
 
   const submitForm = (event) => {
     event.preventDefault();
+
+    axios.post(wrapApi("/feeds"), {
+      ...state,
+      location: { 
+        type: "Point", 
+        coordinates: localStorage.coords.split(",").map(Number) 
+      }
+    })
+      .then(resp => {
+        console.log("Report successful");
+        navigate("/");
+      })
+      .catch((e) => {
+        console.error(e.response);
+        alert("Could not make report. Sorry!");
+      });
   };
 
   return (

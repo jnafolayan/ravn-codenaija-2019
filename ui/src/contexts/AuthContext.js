@@ -15,7 +15,8 @@ const authReducer = (state, action) => {
       const { user, token } = action.payload;
       localStorage.setItem("token", JSON.stringify(token));
       localStorage.setItem("user", JSON.stringify(user));
-      return { ...state, user, token };
+      localStorage.setItem("coords", [0,0]);
+      return { ...state, user, token, coords: [0,0] };
     case "LOGOUT":
       localStorage.clear();
       return {
@@ -23,6 +24,9 @@ const authReducer = (state, action) => {
         user: null,
         token: null
       };
+    case "GEO_CHANGE":
+      localStorage.setItem("coords", action.payload);
+      return { ...state, coords: action.payload }
     default:
       return state;
   }
