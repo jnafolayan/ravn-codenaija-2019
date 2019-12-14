@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Location, Router, navigate } from "@reach/router";
 import posed, { PoseGroup } from "react-pose";
 import Home from "./screens/Home";
@@ -38,6 +38,23 @@ const Protected = ({ render }) => {
 };
 
 export default function App() {
+  const [startGeoPoll, setStartGeoPoll] = useState(true);
+
+  useEffect(() => {
+    if (!startGeoPoll) return;
+    setStartGeoPoll(false);
+
+    const interval = setInterval(() => {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        localStorage.setItem("coords", coords.reverse());
+      });
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    }
+  }, [startGeoPoll]);
+
   return (
     <AuthContextProvider>
       <PosedRouter>

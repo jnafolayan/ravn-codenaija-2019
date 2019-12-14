@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link, navigate } from "@reach/router";
+import axios from "axios";
 import styled from "styled-components";
 
+import wrapApi from "../request";
 import { AuthContext } from "../contexts/AuthContext";
 import CityBG from "../assets/img/city-bg.jpg";
 
@@ -101,7 +103,7 @@ export default function Login() {
     username: "",
     password: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     fullname: ""
   });
 
@@ -115,17 +117,21 @@ export default function Login() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: { 
-          ...state
-        },
-        token: null
-      }
-    });
+    axios.post(wrapApi("/users/signup"), state)
+      .then(resp => {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: { 
+              ...state
+            },
+            token: null
+          }
+        });
 
-    navigate("/");
+        navigate("/");
+      })
+      .catch(() => alert("Sorry! Could not sign you up"));
   };
 
   return (
@@ -157,7 +163,7 @@ export default function Login() {
           </FormGroup>
 
           <FormGroup>
-            <input type="tel" name="phone" placeholder="Phone" onChange={onInputChange} /> 
+            <input type="tel" name="phoneNumber" placeholder="Phone" onChange={onInputChange} /> 
           </FormGroup>
 
           <FormGroup>
