@@ -3,7 +3,9 @@ import DeckGL from "@deck.gl/react";
 import { LineLayer } from "@deck.gl/layers";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-export function MapView({ google }) {
+export function MapView({ google, onLoad }) {
+  onLoad();
+  
   return (
       <Map
         id="hello"

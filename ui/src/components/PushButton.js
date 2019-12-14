@@ -1,32 +1,79 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 const Wrapper = styled.div`
   position: relative;
+  width: 100%;
+  height: 100%;
 
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .button-outline {
+    border-radius: 50%;
+    width: 240px;
+    height: 240px;
+    background: rgba(28,28,28,0);
+    margin: 90px auto 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: grow 0.7s infinite ease-in;
+
+    .button {
+      border-radius: 50%;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at center, hsl(5, 100%, 25%) 40%, hsl(3, 82%, 42%));
+      box-shadow: 0 8px 24px rgba(30,30,30,0.85);
+      transition: all 0.5s;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.down {
+        background: radial-gradient(circle at center, hsl(5, 100%, 25%) 55%, hsl(3, 82%, 38%));
+      }
+    }
+  }
+
+  .tip {
+    display: none;
+    text-align: center;
+    margin: 20px auto;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    padding: 0 18px;
+    max-width: 468px;
+    color: #dcdcdc;
   }
 `;
 
-export default function PushButton() {
-  const canvasRef = useRef();
-  const [firstRender, setFirstRender] = useState(true);
+export default function PushButton({ onRelease }) {
+  const { state: theme } = useContext(ThemeContext);
+  const [buttonDown, setButtonDown] = useState(false);
 
-  useEffect(() => {
-    if (!firstRender) return;
-    setFirstRender(false);
+  const startButtonPress = () => {
+    setButtonDown(true);
+  };
 
-    
-  }, [firstRender]);
-
+  const endButtonPress = (event) => {
+    setButtonDown(false);
+    onRelease();
+  };
+ 
   return (
-    <Wrapper>
-      <canvas ref={canvasRef}></canvas>
+    <Wrapper theme={theme}>
+      <div className="button-outline">
+        <div 
+          className={"button" + (buttonDown ? " down" : "")} 
+          onTouchStart={startButtonPress} 
+          onTouchEnd={endButtonPress}>
+        </div>
+      </div>
+      <p className="tip">
+        Press and hold to send a distress signal
+      </p>
     </Wrapper>
   );
 }

@@ -1,27 +1,50 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { navigate } from "@reach/router";
 import styled from "styled-components";
+import { ThemeContext } from "../contexts/ThemeContext";
 import Header from "../components/Header";
 import PushButton from "../components/PushButton";
+import CancelDistress from "../components/CancelDistress";
 
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 75px auto 30px;
-  
-  @media (orientation: landscape) {
-    grid-template-rows: 75px 100vw 75px;
+  grid-template-rows: 75px calc(100vh - 135px) 60px;
+  background: ${({ theme }) => theme.bg};
+
+  > .cancel {
+    color: #ddd;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background: ${({ theme }) => theme.bg};
   }
 `;
 
-const MapViewWrapper = styled.div`
-  position: relative;
-`;
-
 export default function Home() {
+  const { state: theme } = useContext(ThemeContext);
+  const [buttonPushed, setButtonPushed] = useState(false);
+
+  const askForCancelCode = () => {
+    setButtonPushed(true);
+  };
+
+  const cancelDistress = () => {
+    setButtonPushed(false);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper theme={theme}>
       <Header />
-      <PushButton />
+      {
+        !buttonPushed ?
+        <PushButton onRelease={askForCancelCode} /> :
+        <CancelDistress onCancel={cancelDistress} />
+      }
+      <div className="cancel">
+        <i className="fa fa-2x fa-times" onClick={() => navigate("/")}></i>
+      </div>
     </Wrapper>
   );
 }
