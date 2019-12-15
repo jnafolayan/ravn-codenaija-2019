@@ -6,7 +6,7 @@ const extract = key => localStorage.getItem(key) ? JSON.parse(localStorage.getIt
 
 const initialState = {
   user: extract("user"),
-  token: extract("token")
+  token: localStorage.getItem("token") || null
 };
 
 const authReducer = (state, action) => {

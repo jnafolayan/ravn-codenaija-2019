@@ -96,7 +96,7 @@ const FormGroup = styled.div`
   }
 `;
 
-export default function Login() {
+export default function Signup() {
   const { dispatch } = useContext(AuthContext);
 
   const [state, setState] = useState({
@@ -131,7 +131,12 @@ export default function Login() {
 
         navigate("/");
       })
-      .catch(() => alert("Sorry! Could not sign you up"));
+      .catch((error) => {
+        if (error.response)
+          alert("Sorry! " + error.response.data.message);
+        else
+          alert("Sorry! Could not sign you up");
+      });
   };
 
   return (
