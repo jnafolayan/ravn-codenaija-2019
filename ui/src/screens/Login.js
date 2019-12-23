@@ -127,7 +127,12 @@ export default function Login() {
         });
         navigate("/");
       })
-      .catch(() => alert("Could not log you in. Sorry!"));
+      .catch((error) => {
+        if (error.response)
+          alert("Sorry! " + error.response.data.message);
+        else
+          alert("Sorry! Could not sign you up");
+      });
   };
 
   return (

@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import DeckGL from "@deck.gl/react";
 import { LineLayer } from "@deck.gl/layers";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-export function MapView({ google, onLoad }) {
+import { NewsContext } from "../contexts/NewsContext";
+
+export function MapView({ google, userCoords, onLoad }) {
+  const { state: news } = useContext(NewsContext);
+  console.log(userCoords)
+
   onLoad();
-  
+
   return (
       <Map
         id="hello"
         google={google} 
-        zoom={14}
+        zoom={1}
+        // center={{ lat: userCoords.lng, lng: userCoords.lat }}
+        // center={userCoords}
         styles={[
           {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
           {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -92,17 +99,24 @@ export function MapView({ google, onLoad }) {
           }
         ]}
       >
-        <Marker name={'Current location'} />
-        
-        <InfoWindow>
-          <div>
-            <h1>Hello world</h1>
-          </div>
-        </InfoWindow>
+        <Marker 
+          name={'Current location'}
+          position={userCoords} />
+
+        {
+          news.nearby.map(d => (
+            <Marker
+              key={d._id}
+              name={d.headline}
+              position={{ lat: d.location[0], lng: d.location[1]}}
+            />
+          ))
+        }
       </Map>
   );
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyC3IWu37nfnJ23ADg1MiXdlO6ui18hGy3I"
+  // apiKey: "AIzaSyC3IWu37nfnJ23ADg1MiXdlO6ui18hGy3I",
+  apiKey: "AIzaSyDEMIU5oJBAJopuHiFud9Nju6txhDYihBg"
 })(MapView);

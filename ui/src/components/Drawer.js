@@ -115,7 +115,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Drawer() {
+export default function Drawer({ userCoords }) {
   const { state: theme } = useContext(ThemeContext);
   const { state: news, dispatch: newsDispatch } = useContext(NewsContext);
   const [tabs, updateTabs] = useState({ nearbyTab: "active", trendingTab: "" });
@@ -132,68 +132,20 @@ export default function Drawer() {
   useEffect(() => {
     if (!firstLoad) return;
 
-    const date = (delta) => {
-      const d = new Date();
-      d.setMinutes(d.getMinutes() - Math.floor(Math.random() * 10));
-      return d;
+    setFirstLoad(false);
+
+    const callSync = () => {
+      newsDispatch({ 
+        type: "SYNC", 
+        payload: { 
+          user: { location: [userCoords.lng, userCoords.lat] } 
+        }
+      });
     };
 
-    newsDispatch({
-      type: "LOAD",
-      payload: {
-        user: { location: [21, 43.03] },
-        reports: [{
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [21, 43.01],
-          place: "4th, Allen Avenue",
-          date: date()
-        }, {
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [21.02, 43.01],
-          place: "4th, Allen Avenue",
-          date: date()
-        },{
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [50.4, 43],
-          place: "4th, Allen Avenue",
-          date: date()
-        },{
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [21, 43.01],
-          place: "4th, Allen Avenue",
-          date: date()
-        }, {
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [21.02, 43.01],
-          place: "4th, Allen Avenue",
-          date: date()
-        },{
-          _id: Math.random(),
-          headline: "Gunmen take 4 hostage. Police trying to maintain order around",
-          views: Math.floor(Math.random() * 100),
-          location: [50.4, 43],
-          place: "4th, Allen Avenue",
-          date: date()
-        }]
-      }
-    });
-    setFirstLoad(false);
-    setInterval(() => newsDispatch({ 
-      type: "SYNC", 
-      payload: { 
-        user: { location: [21, 43.03] } 
-      }
-    }), 10000);
+    callSync();
+
+    setInterval(callSync, 2000);
   }, [firstLoad]);
 
   return (

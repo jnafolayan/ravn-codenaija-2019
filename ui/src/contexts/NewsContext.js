@@ -1,9 +1,9 @@
 import React, { useReducer } from "react";
 
 const initialState = {
-  nearby: [],
+  all: [],
   trending: [],
-  all: []
+  nearby: []
 };
 
 const KM_IN_FEET = 0.0003048;

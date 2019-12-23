@@ -9,6 +9,7 @@ import WriteReport from "./screens/WriteReport";
 import NotFound from "./screens/NotFound";
 
 import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
+import NewsContextProvider from "./contexts/NewsContext";
 
 const RouteContainer = posed.div({
   enter: { delay: 300, opacity: 1, beforeChildren: false, staggerChildren: 50  },
@@ -39,16 +40,22 @@ const Protected = ({ render }) => {
 
 export default function App() {
   const [startGeoPoll, setStartGeoPoll] = useState(true);
+  const [userCoords, setUserCoords] = useState({ lat: 0, lng: 0 }); // lat, lng
 
   useEffect(() => {
     if (!startGeoPoll) return;
     setStartGeoPoll(false);
 
-    const interval = setInterval(() => {
+    const getUserLocation = () => {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
-        localStorage.setItem("coords", coords.reverse());
+        const loc = { lat: coords.latitude, lng: coords.longitude }
+        setUserCoords(loc);
       });
-    }, 10000);
+    };
+
+    getUserLocation();
+
+    const interval = setInterval(getUserLocation, 10000);
 
     return () => {
       clearInterval(interval);
@@ -57,14 +64,16 @@ export default function App() {
 
   return (
     <AuthContextProvider>
-      <PosedRouter>
-        <Protected path="/" render={() => <Home />} />
-        <Protected path="/mobile" render={() => <MobileMode />} />
-        <Protected path="/write" render={() => <WriteReport />} />
-        <Login path="/login" />
-        <Signup path="/signup" />
-        <NotFound default />
-      </PosedRouter>
+      <NewsContextProvider>
+        <PosedRouter>
+          <Protected path="/" render={() => <Home userCoords={userCoords} />} />
+          <Protected path="/mobile" render={() => <MobileMode />} />
+          <Protected path="/write" render={() => <WriteReport userCoords={userCoords} />} />
+          <Login path="/login" />
+          <Signup path="/signup" />
+          <NotFound default />
+        </PosedRouter>
+      </NewsContextProvider>
     </AuthContextProvider>
   );
 }

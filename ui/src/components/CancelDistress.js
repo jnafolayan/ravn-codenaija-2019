@@ -71,6 +71,11 @@ export default function CancelDistress({ onCancel, onProceed }) {
 const Wrapper = styled.div`
   padding: 12px 18px;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   .intro {
     font-family: "Open Sans", sans-serif;
     font-size: 1rem;

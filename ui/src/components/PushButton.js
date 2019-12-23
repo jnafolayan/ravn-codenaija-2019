@@ -6,13 +6,16 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .button-outline {
     border-radius: 50%;
     width: 240px;
     height: 240px;
     background: rgba(28,28,28,0);
-    margin: 90px auto 40px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,7 +71,9 @@ export default function PushButton({ onRelease }) {
         <div 
           className={"button" + (buttonDown ? " down" : "")} 
           onTouchStart={startButtonPress} 
-          onTouchEnd={endButtonPress}>
+          onTouchEnd={endButtonPress} 
+          onMouseDown={startButtonPress} 
+          onMouseUp={endButtonPress}>
         </div>
       </div>
       <p className="tip">

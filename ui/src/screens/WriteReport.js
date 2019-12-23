@@ -5,18 +5,20 @@ import axios from "axios";
 import wrapApi from "../request";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
+import { NewsContext } from "../contexts/NewsContext";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
-export default function Home() {
+export default function WriteReport({ userCoords }) {
   const { state: theme } = useContext(ThemeContext);
   const { state: auth } = useContext(AuthContext);
+  const { dispatch: newsDispatch } = useContext(NewsContext);
 
   const [state, setState] = useState({
     title: "",
     description: "",
     category: "Security",
-    location: { type: "Point", coordinates: localStorage.coords.split(",").map(Number) }
+    location: { type: "Point", coordinates: null  }
   });
 
   const onInputChange = ({ target }) => {
@@ -33,11 +35,27 @@ export default function Home() {
       ...state,
       location: { 
         type: "Point", 
-        coordinates: localStorage.coords.split(",").map(Number) 
+        coordinates: [userCoords.lat, userCoords.lng]
       }
     })
       .then(resp => {
         console.log("Report successful");
+        newsDispatch({
+          type: "PUSH",
+          payload: {
+            user: {
+              location: [userCoords.lng, userCoords.lat]
+            },
+            report: {
+              _id: Math.random(),
+              headline: state.title,
+              views: Math.floor(Math.random() * 100),
+              location: userCoords,
+              place: "4th, Allen Avenue",
+              date: new Date()
+            }
+          }
+        });
         navigate("/");
       })
       .catch((e) => {

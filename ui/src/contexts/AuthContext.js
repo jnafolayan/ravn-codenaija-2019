@@ -4,6 +4,11 @@ export const AuthContext = React.createContext();
 
 const extract = key => localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : null;
 
+if (!localStorage.cur) {
+  localStorage.clear();
+  localStorage.cur = "random";
+}
+
 const initialState = {
   user: extract("user"),
   token: localStorage.getItem("token") || null
@@ -15,8 +20,7 @@ const authReducer = (state, action) => {
       const { user, token } = action.payload;
       localStorage.setItem("token", JSON.stringify(token));
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("coords", [0,0]);
-      return { ...state, user, token, coords: [0,0] };
+      return { ...state, user, token };
     case "LOGOUT":
       localStorage.clear();
       return {
@@ -25,8 +29,7 @@ const authReducer = (state, action) => {
         token: null
       };
     case "GEO_CHANGE":
-      localStorage.setItem("coords", action.payload);
-      return { ...state, coords: action.payload }
+      return { ...state }
     default:
       return state;
   }
